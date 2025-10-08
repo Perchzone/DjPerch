@@ -47,6 +47,13 @@ class SupportModule {
             emoji: "💎",
             network: "The Open Network",
             qrFile: "./assets/qr/ton-qr.jpg"
+        },
+        "umoney_rub": {
+            address: "4100119360925717",
+            name: "RUB (UMoney)",
+            emoji: "🇷🇺",
+            network: "UMoney RUB Transfers",
+            details: "Bank card transfers in Russian Rubles"           
         }
     };
     
