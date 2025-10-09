@@ -9,7 +9,47 @@ class SoundExperimentsModule {
         {
             id: 1,
             title: "COMANDANTE ON THE WHEELS OF STEEL",
-            description: `Our world stands on the brink of two abysses...`, // ваш существующий текст
+            description: `Our world stands on the brink of two abysses. One is the chasm of abundance promised by the silicon prophets. The other is the void of forgotten utopias, into which we have cast the red berets and posters bearing the stern face of the Comandante.
+
+Between them lies a gulf, across which we are trying to build a bridge. And this bridge is the question posed to us by the dusty guerrilla with an eternal cigar in his mouth, a question now whispered by algorithms in sterile data centers:
+
+What makes a human being free?
+
+Ernesto "Che" Guevara, the romantic revolutionary, gave his answer: freedom is liberation from the tyranny of capital. Not through convenience, but through overcoming. He dreamed of a "New Man"- a being who labors not for profit, but for an idea, for a brother, for the future. His economy was one of moral duty, where the machine serves the people, not the shareholder. He saw in technology a hammer to shatter shackles, but he failed to see that the same hammer could forge new ones.
+
+Jack Ma, Sam Altman, Elon Musk, and the apostles of singularity give their answer: freedom is liberation from the tyranny of labor. Not through revolution, but through a basic income. They dream of a "new class" - the emancipated human, to whom a UBI, granted by the grace of AI, will finally allow the freedom to pursue... what? Creativity? Self-development? Consumption? Their economy is one of techno-philanthropy, where the robot serves the human, freeing them from the need to serve. They see technology as the key to the cage, but they do not ask where the prisoner will go once released.
+
+We stand at the crossroads of two utopias.
+
+The Red Utopia calls us to collective altruism.
+The Silicon Utopia calls us to individual freedom.
+
+Che called for humanity to become god through self-sacrifice.
+Silicon calls for humanity to become a passive beneficiary of an omnipotent mind.
+
+And here we must admit: the visionary Che Guevara was half a century ahead of his time. His utopia was not just a dream - it was a rough draft of the future that today's techno-feudalists are building. He was wrong in his methods, but right in his core prophecy: the world is headed for a fundamental transformation of the human spirit and the economy.
+
+The world was not ready then. The technology did not exist to liberate humanity from compulsory toil. There was no AI to take on the routine. No blockchain to ensure the transparent distribution of resources. No global network to coordinate efforts. His hammer was too primitive for the anvil upon which he tried to forge the future.
+
+Now technology is catching up to the prophecy. AGI (Artificial General Intelligence) is that very historical chance that Che lacked. It is the very "machine" that can truly serve the people, not the shareholder. Altman, Jack Ma, Musk - they are the unwitting heirs to his ideas, technological Bolsheviks building the infrastructure for a "new humanity." Their UBI is a surrogate for moral incentives, an attempt to algorithmize solidarity.
+
+Therefore, our manifesto is not a call backward to the barricades. Nor is it a prayer forward to a digital rapture.
+
+Our manifesto is a demand for a conscious future.
+
+We demand technology that liberates, does not make obsolete.
+We demand an economy that serves humanity, does not serve a system.
+We demand a future where human dignity is determined not by your usefulness to an algorithm, nor by your sacrifice for the state, but by your right to meaning, to vocation, to struggle, and to error.
+
+We will not allow the silicon oracles to buy our souls under the guise of an unconditional income.
+We will not allow old utopias to demand it as a sacrifice in the name of the common good.
+
+Che's ideal was beautiful in its uncompromising nature and utopian in its means.
+Silicon's ideal is pragmatic in its means and utopian in its ends.
+
+Our task is to find what is more important than both: the freedom to be human. Not a cog in the revolution, nor a user on a platform, but a conscious creator of a new ethics for the age of AGI.
+
+The time for humanity has come. Not as an object of history, but as its subject. Always. `, // ваш текст
             shortDescription: "Comrades, dreamers, skeptics, and believers!",
             genre: "Experimental",
             bpm: "110",
