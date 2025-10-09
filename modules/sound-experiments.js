@@ -9,47 +9,7 @@ class SoundExperimentsModule {
         {
             id: 1,
             title: "COMANDANTE ON THE WHEELS OF STEEL",
-            description: `Our world stands on the brink of two abysses. One is the chasm of abundance promised by the silicon prophets. The other is the void of forgotten utopias, into which we have cast the red berets and posters bearing the stern face of the Comandante.
-
-Between them lies a gulf, across which we are trying to build a bridge. And this bridge is the question posed to us by the dusty guerrilla with an eternal cigar in his mouth, a question now whispered by algorithms in sterile data centers:
-
-What makes a human being free?
-
-Ernesto "Che" Guevara, the romantic revolutionary, gave his answer: freedom is liberation from the tyranny of capital. Not through convenience, but through overcoming. He dreamed of a "New Man"- a being who labors not for profit, but for an idea, for a brother, for the future. His economy was one of moral duty, where the machine serves the people, not the shareholder. He saw in technology a hammer to shatter shackles, but he failed to see that the same hammer could forge new ones.
-
-Jack Ma, Sam Altman, Elon Musk, and the apostles of singularity give their answer: freedom is liberation from the tyranny of labor. Not through revolution, but through a basic income. They dream of a "new class" - the emancipated human, to whom a UBI, granted by the grace of AI, will finally allow the freedom to pursue... what? Creativity? Self-development? Consumption? Their economy is one of techno-philanthropy, where the robot serves the human, freeing them from the need to serve. They see technology as the key to the cage, but they do not ask where the prisoner will go once released.
-
-We stand at the crossroads of two utopias.
-
-The Red Utopia calls us to collective altruism.
-The Silicon Utopia calls us to individual freedom.
-
-Che called for humanity to become god through self-sacrifice.
-Silicon calls for humanity to become a passive beneficiary of an omnipotent mind.
-
-And here we must admit: the visionary Che Guevara was half a century ahead of his time. His utopia was not just a dream - it was a rough draft of the future that today's techno-feudalists are building. He was wrong in his methods, but right in his core prophecy: the world is headed for a fundamental transformation of the human spirit and the economy.
-
-The world was not ready then. The technology did not exist to liberate humanity from compulsory toil. There was no AI to take on the routine. No blockchain to ensure the transparent distribution of resources. No global network to coordinate efforts. His hammer was too primitive for the anvil upon which he tried to forge the future.
-
-Now technology is catching up to the prophecy. AGI (Artificial General Intelligence) is that very historical chance that Che lacked. It is the very "machine" that can truly serve the people, not the shareholder. Altman, Jack Ma, Musk - they are the unwitting heirs to his ideas, technological Bolsheviks building the infrastructure for a "new humanity." Their UBI is a surrogate for moral incentives, an attempt to algorithmize solidarity.
-
-Therefore, our manifesto is not a call backward to the barricades. Nor is it a prayer forward to a digital rapture.
-
-Our manifesto is a demand for a conscious future.
-
-We demand technology that liberates, does not make obsolete.
-We demand an economy that serves humanity, does not serve a system.
-We demand a future where human dignity is determined not by your usefulness to an algorithm, nor by your sacrifice for the state, but by your right to meaning, to vocation, to struggle, and to error.
-
-We will not allow the silicon oracles to buy our souls under the guise of an unconditional income.
-We will not allow old utopias to demand it as a sacrifice in the name of the common good.
-
-Che's ideal was beautiful in its uncompromising nature and utopian in its means.
-Silicon's ideal is pragmatic in its means and utopian in its ends.
-
-Our task is to find what is more important than both: the freedom to be human. Not a cog in the revolution, nor a user on a platform, but a conscious creator of a new ethics for the age of AGI.
-
-The time for humanity has come. Not as an object of history, but as its subject. Always. `, // ваш текст
+            description: `Our world stands on the brink of two abysses...`, // ваш существующий текст
             shortDescription: "Comrades, dreamers, skeptics, and believers!",
             genre: "Experimental",
             bpm: "110",
@@ -58,14 +18,20 @@ The time for humanity has come. Not as an object of history, but as its subject.
             cover: "https://f4.bcbits.com/img/a3550475376_10.jpg",
             coverType: "image",
             bandcampUrl: "https://djperch.bandcamp.com/track/comandante-on-the-wheels-of-steel",
-            // УВЕЛИЧЕННЫЙ EMBED CODE ДЛЯ BANDCAMP
+            // Nina Protocol информация
+            ninaProtocol: {
+                available: true,
+                mintUrl: "https://www.ninaprotocol.com/releases/dj-perch-comandante-on-the-wheels-of-steel",
+                listenUrl: "https://www.ninaprotocol.com/releases/dj-perch-comandante-on-the-wheels-of-steel",
+                nftAddress: "0x..." // опционально, если есть
+            },
             embedCode: `<iframe style="border: 0; width: 100%; height: 472px;" src="https://bandcamp.com/EmbeddedPlayer/track=2691374158/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=big/transparent=true/" seamless><a href="https://djperch.bandcamp.com/track/comandante-on-the-wheels-of-steel">Comandante on the Wheels of Steel by Dj Perch</a></iframe>`,
             price: "Name Your Price",
             releaseDate: "August 20, 2025",
             favorite: false,
             expanded: false
         },
-        
+        // Добавьте другие треки с поддержкой Nina Protocol
     ];
     
     static currentTrack = null;
@@ -80,6 +46,7 @@ The time for humanity has come. Not as an object of history, but as its subject.
                         <div class="track-meta-small">
                             <span class="genre-tag">${track.genre}</span>
                             <span class="duration">${track.duration}</span>
+                            ${track.ninaProtocol?.available ? '<span class="nina-tag">🎵 NINA</span>' : ''}
                         </div>
                     </div>
                     <button class="expand-btn" data-track-id="${track.id}">
@@ -98,6 +65,13 @@ The time for humanity has come. Not as an object of history, but as its subject.
                     <h4>🔬 EXPERIMENTAL RELEASES</h4>
                     <p>All sound experiments are available for free streaming and download. Support the research! 🎛️</p>
                     <a href="https://djperch.bandcamp.com" target="_blank" class="pixel-btn">VISIT BANDCAMP STORE</a>
+                </div>
+
+                <!-- Добавляем Nina Protocol Notice -->
+                <div class="nina-notice pixel-border">
+                    <h4>🔄 DECENTRALIZED MUSIC ON NINA PROTOCOL</h4>
+                    <p>Listen and mint this track as NFT on the decentralized Nina Protocol platform!</p>
+                    <a href="https://www.ninaprotocol.com/profiles/dj-perch" target="_blank" class="pixel-btn nina-btn">🌐 EXPLORE NINA PROTOCOL</a>
                 </div>
                 
                 <div class="pixel-divider"></div>
@@ -128,6 +102,7 @@ The time for humanity has come. Not as an object of history, but as its subject.
                                         <span id="track-bpm" class="bpm">-</span>
                                         <span id="track-key" class="key-tag">-</span>
                                         <span id="track-duration" class="duration">-</span>
+                                        ${this.renderNinaTag()}
                                     </div>
                                 </div>
                             </div>
@@ -141,7 +116,8 @@ The time for humanity has come. Not as an object of history, but as its subject.
                                     </div>
                                 </div>
                                 <div class="player-actions">
-                                    <a href="#" id="bandcamp-link" target="_blank" class="pixel-btn">🎵 LISTEN ON BANDCAMP</a>
+                                    <a href="#" id="bandcamp-link" target="_blank" class="pixel-btn">🎵 BANDCAMP</a>
+                                    <a href="#" id="nina-listen-link" target="_blank" class="pixel-btn nina-btn" style="display: none;">🌐 NINA PROTOCOL</a>
                                     <button id="favorite-btn" class="favorite-btn">🤍</button>
                                 </div>
                             </div>
@@ -159,6 +135,10 @@ The time for humanity has come. Not as an object of history, but as its subject.
                 </div>
             </div>
         `;
+    }
+
+    static renderNinaTag() {
+        return `<span id="nina-protocol-tag" class="nina-tag-large" style="display: none;">🎵 NINA PROTOCOL</span>`;
     }
     
     static renderTrackCover(track, size = 'large') {
@@ -234,12 +214,30 @@ The time for humanity has come. Not as an object of history, but as its subject.
         document.getElementById('track-key').textContent = track.key;
         document.getElementById('track-duration').textContent = track.duration;
         
+        // Показываем/скрываем тег Nina Protocol
+        const ninaTag = document.getElementById('nina-protocol-tag');
+        if (track.ninaProtocol?.available) {
+            ninaTag.style.display = 'inline-block';
+        } else {
+            ninaTag.style.display = 'none';
+        }
+        
         const shortDesc = document.querySelector('.short-description');
         const fullDesc = document.querySelector('.full-description');
         shortDesc.textContent = track.shortDescription;
         fullDesc.innerHTML = this.formatDescription(track.description);
         
         document.getElementById('bandcamp-link').href = track.bandcampUrl;
+        
+        // Настраиваем кнопку Nina Protocol
+        const ninaListenLink = document.getElementById('nina-listen-link');
+        if (track.ninaProtocol?.available) {
+            ninaListenLink.href = track.ninaProtocol.listenUrl;
+            ninaListenLink.style.display = 'inline-block';
+            ninaListenLink.textContent = '🌐 NINA PROTOCOL';
+        } else {
+            ninaListenLink.style.display = 'none';
+        }
         
         const favBtn = document.getElementById('favorite-btn');
         favBtn.textContent = track.favorite ? '💖' : '🤍';
@@ -270,12 +268,16 @@ The time for humanity has come. Not as an object of history, but as its subject.
                 <div class="large-bandcamp-player">
                     <div class="player-header">
                         <h4>${track.title} - Preview</h4>
-                        <p>Full track available on Bandcamp</p>
+                        <p>Full track available on Bandcamp and Nina Protocol</p>
                     </div>
                     <div class="player-placeholder-large">
                         <div class="large-player-emoji">🎵</div>
                         <p>Track preview coming soon</p>
-                        <a href="${track.bandcampUrl}" target="_blank" class="pixel-btn">🎧 LISTEN ON BANDCAMP</a>
+                        <div class="player-links">
+                            <a href="${track.bandcampUrl}" target="_blank" class="pixel-btn">🎧 BANDCAMP</a>
+                            ${track.ninaProtocol?.available ? 
+                                `<a href="${track.ninaProtocol.listenUrl}" target="_blank" class="pixel-btn nina-btn">🌐 NINA PROTOCOL</a>` : ''}
+                        </div>
                     </div>
                 </div>
             `;
