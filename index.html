@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>PERCH · COUCOU TAPES</title>
+  <title>PERCH · COUCOU CRATE</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=VT323&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -391,6 +392,7 @@
     .tape-card {
       cursor: pointer;
       transition: transform .2s;
+      position: relative;
     }
     .tape-card:hover {
       transform: translateY(-4px);
@@ -398,9 +400,8 @@
     .tape-card.active .tc-body {
       box-shadow: 0 0 0 2px var(--rust2), 0 12px 32px rgba(0,0,0,.6);
     }
-    /* SQUARE COVER ART FOR GRID CARDS */
     .tc-body {
-      aspect-ratio: 1 / 1;   /* 1:1 square */
+      aspect-ratio: 1 / 1;
       border-radius: 8px;
       border: 1.5px solid rgba(255,255,255,.08);
       overflow: hidden;
@@ -480,6 +481,31 @@
       z-index: 3;
       border-radius: 3px;
     }
+    /* SHARE BUTTON - always copies a shareable link */
+    .share-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(2px);
+      border-radius: 30px;
+      padding: 4px 8px;
+      font-size: 0.6rem;
+      color: var(--gold2);
+      cursor: pointer;
+      border: 0.5px solid rgba(255,255,255,0.2);
+      transition: background 0.1s;
+      font-family: monospace;
+      margin-top: 6px;
+      width: fit-content;
+    }
+    .share-link-btn i {
+      font-size: 0.6rem;
+    }
+    .share-link-btn:hover {
+      background: rgba(0,0,0,0.85);
+      color: white;
+    }
     .tc-info {
       padding: 0 2px;
     }
@@ -498,7 +524,23 @@
       color: rgba(122,106,85,.5);
       margin-top: 2px;
     }
-
+    .toast-msg {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--rust2);
+      color: black;
+      font-family: monospace;
+      font-size: 0.7rem;
+      padding: 6px 12px;
+      border-radius: 30px;
+      z-index: 2000;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      white-space: nowrap;
+    }
     .about-strip {
       border-top: 1px solid rgba(212,160,23,.1);
       border-bottom: 1px solid rgba(212,160,23,.1);
@@ -685,15 +727,16 @@
 
 <footer>
   <div class="footer-logo">PERCH</div>
-  <div>© 2026 · PERCH · COUCOU TAPES</div>
+  <div>© 2026 · PERCH · TAPES</div>
 </footer>
+
+<div class="toast-msg" id="toastMsg">🔗 Link copied!</div>
 
 <script>
   let TAPES = [];
   let currentIndex = null;
   let audio = new Audio();
   let isPlaying = false;
-  let scratchCtx = null;
 
   const cassArt = document.getElementById('cassArt');
   const cassTitle = document.getElementById('cassTitle');
@@ -707,6 +750,33 @@
   const playBtn = document.getElementById('playPauseBtn');
   const cassetteObj = document.getElementById('cassetteObj');
   const volumeSlider = document.getElementById('volumeSlider');
+  const toast = document.getElementById('toastMsg');
+
+  function showToast(message) {
+    toast.textContent = message;
+    toast.style.opacity = '1';
+    setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+  }
+
+  function getShareUrl(index) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('track', index);
+    return url.href;
+  }
+
+  async function copyShareLink(index, event) {
+    event.stopPropagation();
+    const track = TAPES[index];
+    if (!track) return;
+    const shareUrl = getShareUrl(index);
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      showToast(`🔗 Copied: ${track.title}`);
+    } catch (err) {
+      // fallback
+      prompt('Copy this link manually:', shareUrl);
+    }
+  }
 
   async function fetchTapes() {
     try {
@@ -715,7 +785,19 @@
       TAPES = await res.json();
       TAPES.sort((a,b) => new Date(b.date) - new Date(a.date));
       renderPhonoteka();
-      if (TAPES.length) loadTape(0, false);
+      const urlParams = new URLSearchParams(window.location.search);
+      let trackParam = urlParams.get('track');
+      if (trackParam !== null) {
+        let idx = parseInt(trackParam);
+        if (!isNaN(idx) && idx >= 0 && idx < TAPES.length) {
+          loadTape(idx, true);
+          document.getElementById('player-section').scrollIntoView({ behavior: 'smooth' });
+        } else if (TAPES.length) {
+          loadTape(0, false);
+        }
+      } else if (TAPES.length) {
+        loadTape(0, false);
+      }
     } catch(e) {
       document.getElementById('tapeGrid').innerHTML = '<div class="loading-tapes">⚠️ Could not load tracks.json — make sure the file exists and format is correct.</div>';
       console.error(e);
@@ -747,8 +829,6 @@
     if (!TAPES[idx]) return;
     currentIndex = idx;
     const t = TAPES[idx];
-    
-    // Set cover art (rectangle with cover)
     if (t.art) {
       cassArt.style.backgroundImage = `url('${t.art}')`;
       cassArt.style.backgroundSize = 'cover';
@@ -757,7 +837,6 @@
       cassArt.style.backgroundImage = 'none';
       cassArt.style.backgroundColor = '#1a1410';
     }
-    
     cassTitle.textContent = t.title;
     trackTitle.textContent = t.title;
     trackMeta.textContent = `${t.bpm} BPM · ${t.desc || 'PERCH BEAT'}`;
@@ -872,15 +951,24 @@
             <div class="tc-name">${escapeHtml(t.title)}</div>
             <div class="tc-bpm">${t.bpm} BPM · ${t.desc || ''}</div>
             <div class="tc-date">${t.date || ''}</div>
+            <div class="share-link-btn" data-share-idx="${i}"><i class="fas fa-link"></i> copy link</div>
           </div>
         </div>
       `;
     }).join('');
     grid.querySelectorAll('.tape-card').forEach(card => {
-      card.addEventListener('click', () => {
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.share-link-btn')) return;
         const idx = parseInt(card.dataset.idx);
         loadTape(idx, true);
         document.getElementById('player-section').scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+    document.querySelectorAll('.share-link-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const idx = parseInt(btn.dataset.shareIdx);
+        copyShareLink(idx, e);
       });
     });
   }
