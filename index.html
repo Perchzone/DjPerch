@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>PERCH · COUCOU CRATE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=VT323&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+      --cream: #f0e6cc;
+      --tape: #1a1410;
+      --tape2: #2a1f18;
+      --rust: #c44a1a;
+      --rust2: #e05c20;
+      --gold: #d4a017;
+      --gold2: #f0c030;
+      --dim: #7a6a55;
+      --ink: #0f0a06;
+    }
+    body {
+      background: var(--tape);
+      color: var(--cream);
+      font-family: 'Space Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      mix-blend-mode: overlay;
+      opacity: 0.45;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      border-bottom: 1px solid rgba(212,160,23,.2);
+    }
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.4rem;
+      letter-spacing: .25em;
+      color: var(--gold2);
+      text-shadow: 0 0 20px rgba(240,192,48,.3);
+    }
+    .logo span { color: var(--rust2); }
+    nav { display: flex; gap: 28px; font-size: .62rem; letter-spacing: .18em; color: var(--dim); }
+    nav a { color: inherit; text-decoration: none; transition: color .2s; }
+    nav a:hover { color: var(--gold2); }
+    .header-tag { font-family: 'VT323', monospace; font-size: 1rem; color: var(--dim); }
+
+    .hero {
+      text-align: center;
+      padding: 48px 20px 16px;
+    }
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 10vw, 7rem);
+      letter-spacing: .12em;
+      line-height: .9;
+      color: var(--cream);
+      text-shadow: 4px 4px 0 var(--ink);
+    }
+    .hero-title em { color: var(--rust2); font-style: normal; }
+    .hero-desc {
+      font-size: .62rem;
+      color: var(--dim);
+      letter-spacing: .15em;
+      margin-top: 12px;
+    }
+
+    .ticker-wrap {
+      overflow: hidden;
+      border-top: 1px solid rgba(212,160,23,.12);
+      border-bottom: 1px solid rgba(212,160,23,.12);
+      padding: 8px 0;
+      background: rgba(212,160,23,.03);
+    }
+    .ticker {
+      display: flex;
+      animation: ticker 30s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-item {
+      font-family: 'VT323', monospace;
+      font-size: 1rem;
+      letter-spacing: .15em;
+      color: rgba(212,160,23,.35);
+      padding: 0 40px;
+      flex-shrink: 0;
+    }
+    .ticker-item span { color: var(--rust2); opacity: .5; }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    #player-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 60px;
+    }
+    .player-body {
+      width: min(560px, 92vw);
+      background: linear-gradient(160deg, #2e231a 0%, #1a1108 60%, #0f0a06 100%);
+      border-radius: 16px 16px 20px 20px;
+      border: 2px solid #3a2a18;
+      box-shadow: 0 20px 60px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.04);
+      padding: 28px 28px 24px;
+    }
+    .player-brand {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    .player-brand-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: .4em;
+      color: var(--gold);
+      opacity: .7;
+    }
+    .player-led {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ff3300;
+      box-shadow: 0 0 6px #ff3300;
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{ opacity:1 } 50%{ opacity:.3 } }
+
+    .cassette-window {
+      background: #0a0706;
+      border-radius: 12px;
+      border: 2px solid #2a1f14;
+      padding: 16px;
+      margin-bottom: 20px;
+      box-shadow: inset 0 4px 16px rgba(0,0,0,.8);
+      min-height: 160px;
+    }
+    .cassette {
+      width: 280px;
+      height: 140px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .cass-body {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      border: 2px solid #333;
+      overflow: hidden;
+    }
+    .cass-art {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: background-image .2s;
+    }
+    .cass-art::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.25) 0%, rgba(0,0,0,.6) 100%);
+    }
+    .cass-reels {
+      position: absolute;
+      top: 8px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-around;
+      padding: 0 28px;
+    }
+    .reel {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,.15);
+      background: radial-gradient(circle, #2a1f14 30%, #1a1008 60%, #0f0806 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .reel::before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #3a2a18;
+      border: 2px solid rgba(212,160,23,.3);
+    }
+    .reel.left { animation: reel-spin 1.2s linear infinite paused; }
+    .reel.right { animation: reel-spin 1.8s linear infinite reverse paused; }
+    .cassette.playing .reel.left,
+    .cassette.playing .reel.right { animation-play-state: running; }
+    @keyframes reel-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .cass-tape {
+      position: absolute;
+      bottom: 56px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 12px;
+      background: #1a0e06;
+      border-radius: 3px;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    .cass-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background: rgba(15,10,6,.9);
+      border-top: 1px solid rgba(212,160,23,.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .cass-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: .15em;
+      color: var(--gold2);
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 90%;
+    }
+    .cass-artist {
+      font-size: .5rem;
+      color: var(--dim);
+      letter-spacing: .2em;
+    }
+
+    .track-info {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .track-title {
+      font-family: 'Special Elite', cursive;
+      font-size: 1rem;
+      color: var(--cream);
+    }
+    .track-meta {
+      font-size: .55rem;
+      color: var(--dim);
+      letter-spacing: .18em;
+    }
+
+    .progress-wrap {
+      margin-bottom: 18px;
+      cursor: pointer;
+    }
+    .progress-track {
+      height: 3px;
+      background: #2a1f14;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--rust), var(--gold2));
+      width: 0;
+      transition: width .1s linear;
+    }
+    .progress-times {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+      font-family: 'VT323', monospace;
+      font-size: .78rem;
+      color: var(--dim);
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .ctrl-btn {
+      background: transparent;
+      border: 1px solid rgba(212,160,23,.2);
+      color: var(--gold);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: .85rem;
+      transition: .15s;
+    }
+    .ctrl-btn:hover {
+      border-color: var(--gold2);
+      background: rgba(212,160,23,.08);
+    }
+    .ctrl-btn.play-btn {
+      width: 52px;
+      height: 52px;
+      font-size: 1.1rem;
+      border: 2px solid var(--rust);
+      color: var(--rust2);
+    }
+    .ctrl-btn.play-btn.playing {
+      background: rgba(196,74,26,.15);
+      border-color: var(--rust2);
+      box-shadow: 0 0 12px rgba(224,92,32,.3);
+    }
+    .vol-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .55rem;
+      color: var(--dim);
+    }
+    .vol-row input[type=range] {
+      width: 80px;
+      height: 2px;
+      background: #2a1f14;
+      cursor: pointer;
+    }
+    .vol-row input[type=range]::-webkit-slider-thumb {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gold);
+      -webkit-appearance: none;
+    }
+    .tape-counter {
+      font-family: 'VT323', monospace;
+      font-size: 1rem;
+      color: rgba(212,160,23,.35);
+      letter-spacing: .2em;
+    }
+
+    #phonoteka {
+      padding: 60px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      letter-spacing: .15em;
+      color: var(--cream);
+      text-shadow: 3px 3px 0 var(--ink);
+    }
+    .section-title span { color: var(--rust2); }
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(212,160,23,.3), transparent);
+    }
+    .section-count {
+      font-family: 'VT323', monospace;
+      font-size: .95rem;
+      color: var(--dim);
+    }
+    .tape-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 28px 20px;
+    }
+    .tape-card {
+      cursor: pointer;
+      transition: transform .2s;
+    }
+    .tape-card:hover {
+      transform: translateY(-4px);
+    }
+    .tape-card.active .tc-body {
+      box-shadow: 0 0 0 2px var(--rust2), 0 12px 32px rgba(0,0,0,.6);
+    }
+    /* SQUARE COVER ART FOR GRID CARDS */
+    .tc-body {
+      aspect-ratio: 1 / 1;   /* 1:1 square */
+      border-radius: 8px;
+      border: 1.5px solid rgba(255,255,255,.08);
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 8px;
+      background: #1a1108;
+    }
+    .tc-art {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+    }
+    .tc-art::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,.7) 100%);
+    }
+    .tc-reels {
+      position: absolute;
+      top: 5px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-around;
+      padding: 0 14px;
+      z-index: 2;
+    }
+    .tc-reel {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,.12);
+      background: radial-gradient(circle, #2a1f14 30%, #0f0806 100%);
+    }
+    .tc-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 6px 6px;
+      background: rgba(10,7,4,.85);
+      border-top: 1px solid rgba(212,160,23,.1);
+    }
+    .tc-label-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: .72rem;
+      letter-spacing: .1em;
+      color: var(--gold2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .tc-playing {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--rust2);
+      box-shadow: 0 0 6px var(--rust2);
+      z-index: 3;
+      display: none;
+    }
+    .tape-card.active .tc-playing { display: block; animation: blink 1s infinite; }
+    .tc-new {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      background: var(--rust2);
+      color: #000;
+      font-size: .4rem;
+      font-weight: bold;
+      padding: 2px 5px;
+      z-index: 3;
+      border-radius: 3px;
+    }
+    .tc-info {
+      padding: 0 2px;
+    }
+    .tc-name {
+      font-family: 'Special Elite', cursive;
+      font-size: .72rem;
+      color: var(--cream);
+    }
+    .tc-bpm {
+      font-size: .5rem;
+      color: var(--dim);
+      letter-spacing: .15em;
+    }
+    .tc-date {
+      font-size: .45rem;
+      color: rgba(122,106,85,.5);
+      margin-top: 2px;
+    }
+
+    .about-strip {
+      border-top: 1px solid rgba(212,160,23,.1);
+      border-bottom: 1px solid rgba(212,160,23,.1);
+      padding: 50px 40px;
+      max-width: 1200px;
+      margin: 0 auto 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+    .about-text .section-title { font-size: 2.2rem; margin-bottom: 20px; }
+    .about-body {
+      font-family: 'Special Elite', cursive;
+      font-size: .85rem;
+      color: var(--dim);
+      line-height: 2;
+    }
+    .about-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .tag {
+      font-size: .5rem;
+      letter-spacing: .2em;
+      color: var(--gold);
+      border: 1px solid rgba(212,160,23,.25);
+      padding: 4px 10px;
+      background: rgba(212,160,23,.04);
+    }
+    .about-stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .stat-box {
+      background: rgba(255,255,255,.02);
+      border: 1px solid rgba(212,160,23,.08);
+      padding: 20px;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: var(--rust2);
+      line-height: 1;
+    }
+    .stat-lbl {
+      font-size: .5rem;
+      letter-spacing: .2em;
+      color: var(--dim);
+    }
+    footer {
+      padding: 24px 40px;
+      border-top: 1px solid rgba(212,160,23,.1);
+      display: flex;
+      justify-content: space-between;
+      font-size: .52rem;
+      color: var(--dim);
+    }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: .3em;
+      color: rgba(212,160,23,.4);
+    }
+    @media (max-width: 700px) {
+      header { padding: 14px 20px; }
+      nav { display: none; }
+      #phonoteka { padding: 40px 20px; }
+      .about-strip { grid-template-columns: 1fr; gap: 30px; padding: 40px 20px; }
+      .tape-grid { gap: 18px 14px; }
+      .section-title { font-size: 2rem; }
+      .hero-title { font-size: 3.5rem; }
+    }
+    .loading-tapes {
+      text-align: center;
+      padding: 40px;
+      font-family: 'VT323', monospace;
+      color: var(--dim);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">PERCH<span>.</span></div>
+  <nav>
+    <a href="#player-section">PLAYER</a>
+    <a href="#phonoteka">PHONOTHEQUE</a>
+    <a href="#about">ABOUT</a>
+  </nav>
+  <div class="header-tag">DIRTY BEATS CRATE</div>
+</header>
+
+<div class="hero">
+  <div class="hero-title">COUCOU<br><em>TAPES</em><br></div>
+  <div class="hero-desc"> BEATS · BREAKS · SAMPLING · SCRATCHING</div>
+</div>
+
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item">VINYL SAMPLING <span>✦</span></span>
+    <span class="ticker-item">DIRTY BREAKS & BEATS <span>✦</span></span>
+    <span class="ticker-item">TURNTABLISM <span>✦</span></span>
+    <span class="ticker-item">SP-404 MK2 <span>✦</span></span>
+  </div>
+</div>
+
+<section id="player-section">
+  <div class="player-body">
+    <div class="player-brand">
+      <div class="player-brand-name">PERCH·DECK</div>
+      <div class="player-led"></div>
+      <div class="player-brand-model">MODEL QQ-404</div>
+    </div>
+    <div class="cassette-window">
+      <div class="cassette" id="cassetteObj">
+        <div class="cass-body">
+          <div class="cass-art" id="cassArt" style="background:#1a1410;"></div>
+          <div class="cass-reels">
+            <div class="reel left"></div>
+            <div class="reel right"></div>
+          </div>
+          <div class="cass-tape"></div>
+          <div class="cass-label">
+            <div class="cass-title" id="cassTitle">SELECT A TAPE</div>
+            <div class="cass-artist">PERCH</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="track-info">
+      <div class="track-title" id="trackTitle">— no tape loaded —</div>
+      <div class="track-meta" id="trackMeta">CHOOSE FROM THE PHONOTHEQUE</div>
+    </div>
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-times"><span id="timeCur">0:00</span><span id="timeTot">0:00</span></div>
+    </div>
+    <div class="controls">
+      <button class="ctrl-btn" id="prevBtn">◀◀</button>
+      <button class="ctrl-btn play-btn" id="playPauseBtn">▶</button>
+      <button class="ctrl-btn" id="nextBtn">▶▶</button>
+    </div>
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div class="vol-row">
+        <span>VOL</span>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.8">
+      </div>
+      <div class="tape-counter" id="counterDisplay">■ ■ ■</div>
+      <div class="vol-row"><span id="bpmDisplay">— BPM</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="phonoteka">
+  <div class="section-header">
+    <div class="section-title">PHONO<span>THEQUE</span></div>
+    <div class="section-line"></div>
+    <div class="section-count" id="tapeCount">LOADING…</div>
+  </div>
+  <div class="tape-grid" id="tapeGrid"></div>
+</section>
+
+<section id="about">
+  <div class="about-strip">
+    <div class="about-text">
+      <div class="section-title">THE <span>SOUND</span></div>
+      <div class="about-body">
+        Dirty boom bap from the other side of the world. Beats built on broken vinyl loops, 
+        chopped on the SP-404 MK2, twisted through analog synthesis. Scratching as texture, not decoration.<br><br>
+        Based in Hội An, Vietnam — where the humidity warps the tape and the heat bends the 808.
+      </div>
+      <div class="about-tags"></div>
+    </div>
+    <div class="about-stat-grid">
+      <div class="stat-box"><span class="stat-num" id="statBeats">—</span><span class="stat-lbl">BEATS</span></div>
+      <div class="stat-box"><span class="stat-num">∞</span><span class="stat-lbl">CRATES</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">PERCH</div>
+  <div>© 2026 · PERCH · COUCOU TAPES</div>
+</footer>
+
+<script>
+  let TAPES = [];
+  let currentIndex = null;
+  let audio = new Audio();
+  let isPlaying = false;
+  let scratchCtx = null;
+
+  const cassArt = document.getElementById('cassArt');
+  const cassTitle = document.getElementById('cassTitle');
+  const trackTitle = document.getElementById('trackTitle');
+  const trackMeta = document.getElementById('trackMeta');
+  const progressFill = document.getElementById('progressFill');
+  const timeCur = document.getElementById('timeCur');
+  const timeTot = document.getElementById('timeTot');
+  const counterDisplay = document.getElementById('counterDisplay');
+  const bpmDisplay = document.getElementById('bpmDisplay');
+  const playBtn = document.getElementById('playPauseBtn');
+  const cassetteObj = document.getElementById('cassetteObj');
+  const volumeSlider = document.getElementById('volumeSlider');
+
+  async function fetchTapes() {
+    try {
+      const res = await fetch('tracks.json?t=' + Date.now());
+      if (!res.ok) throw new Error('HTTP error');
+      TAPES = await res.json();
+      TAPES.sort((a,b) => new Date(b.date) - new Date(a.date));
+      renderPhonoteka();
+      if (TAPES.length) loadTape(0, false);
+    } catch(e) {
+      document.getElementById('tapeGrid').innerHTML = '<div class="loading-tapes">⚠️ Could not load tracks.json — make sure the file exists and format is correct.</div>';
+      console.error(e);
+    }
+  }
+
+  function formatTime(sec) {
+    if (isNaN(sec)) return '0:00';
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return `${m}:${s.toString().padStart(2,'0')}`;
+  }
+
+  function updateProgressUI() {
+    if (audio.duration && audio.duration !== Infinity) {
+      const percent = (audio.currentTime / audio.duration) * 100;
+      progressFill.style.width = percent + '%';
+      timeCur.textContent = formatTime(audio.currentTime);
+      timeTot.textContent = formatTime(audio.duration);
+      counterDisplay.textContent = formatTime(audio.currentTime);
+    } else {
+      progressFill.style.width = '0%';
+      timeCur.textContent = '0:00';
+      timeTot.textContent = '0:00';
+    }
+  }
+
+  function loadTape(idx, autoPlay = false) {
+    if (!TAPES[idx]) return;
+    currentIndex = idx;
+    const t = TAPES[idx];
+    
+    // Set cover art (rectangle with cover)
+    if (t.art) {
+      cassArt.style.backgroundImage = `url('${t.art}')`;
+      cassArt.style.backgroundSize = 'cover';
+      cassArt.style.backgroundPosition = 'center';
+    } else {
+      cassArt.style.backgroundImage = 'none';
+      cassArt.style.backgroundColor = '#1a1410';
+    }
+    
+    cassTitle.textContent = t.title;
+    trackTitle.textContent = t.title;
+    trackMeta.textContent = `${t.bpm} BPM · ${t.desc || 'PERCH BEAT'}`;
+    bpmDisplay.textContent = t.bpm + ' BPM';
+    if (t.src) {
+      audio.src = t.src;
+      audio.load();
+    } else {
+      audio.src = '';
+    }
+    if (autoPlay && t.src) {
+      audio.play().catch(()=>{});
+      isPlaying = true;
+    } else {
+      isPlaying = false;
+    }
+    updatePlayUI();
+    highlightActiveCard(idx);
+    if (!autoPlay && t.src) audio.pause();
+  }
+
+  function highlightActiveCard(idx) {
+    document.querySelectorAll('.tape-card').forEach((card,i) => {
+      if (i === idx) card.classList.add('active');
+      else card.classList.remove('active');
+    });
+  }
+
+  function togglePlay() {
+    if (currentIndex === null) return;
+    if (!audio.src) {
+      isPlaying = !isPlaying;
+      updatePlayUI();
+      return;
+    }
+    if (audio.paused) {
+      audio.play().catch(e=>console.log);
+      isPlaying = true;
+    } else {
+      audio.pause();
+      isPlaying = false;
+    }
+    updatePlayUI();
+  }
+
+  function updatePlayUI() {
+    if (isPlaying) {
+      playBtn.textContent = '❚❚';
+      playBtn.classList.add('playing');
+      cassetteObj.classList.add('playing');
+    } else {
+      playBtn.textContent = '▶';
+      playBtn.classList.remove('playing');
+      cassetteObj.classList.remove('playing');
+    }
+  }
+
+  function nextTrack() {
+    if (!TAPES.length) return;
+    const next = (currentIndex + 1) % TAPES.length;
+    loadTape(next, true);
+  }
+
+  function prevTrack() {
+    if (!TAPES.length) return;
+    const prev = (currentIndex - 1 + TAPES.length) % TAPES.length;
+    loadTape(prev, true);
+  }
+
+  function seek(e) {
+    if (!audio.duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const percent = (e.clientX - rect.left) / rect.width;
+    audio.currentTime = percent * audio.duration;
+  }
+
+  function isNewThisWeek(dateStr) {
+    if (!dateStr) return false;
+    const d = new Date(dateStr);
+    const now = new Date();
+    return (now - d) < 7 * 24 * 60 * 60 * 1000;
+  }
+
+  function renderPhonoteka() {
+    const grid = document.getElementById('tapeGrid');
+    const countSpan = document.getElementById('tapeCount');
+    const statSpan = document.getElementById('statBeats');
+    countSpan.textContent = TAPES.length + ' TAPES';
+    statSpan.textContent = TAPES.length;
+    if (!TAPES.length) {
+      grid.innerHTML = '<div class="loading-tapes">no tapes found — add tracks.json</div>';
+      return;
+    }
+    grid.innerHTML = TAPES.map((t, i) => {
+      let bgStyle = '';
+      if (t.art && (t.art.startsWith('http') || t.art.includes('/'))) {
+        bgStyle = `background-image: url('${t.art}'); background-size: cover; background-position: center;`;
+      } else {
+        bgStyle = `background: ${t.art || '#1a1410'};`;
+      }
+      const isNew = isNewThisWeek(t.date);
+      return `
+        <div class="tape-card" data-idx="${i}">
+          <div class="tc-body">
+            <div class="tc-art" style="${bgStyle}"></div>
+            <div class="tc-reels"><div class="tc-reel"></div><div class="tc-reel"></div></div>
+            <div class="tc-label"><div class="tc-label-title">${escapeHtml(t.title)}</div></div>
+            <div class="tc-playing"></div>
+            ${isNew ? '<div class="tc-new">NEW</div>' : ''}
+          </div>
+          <div class="tc-info">
+            <div class="tc-name">${escapeHtml(t.title)}</div>
+            <div class="tc-bpm">${t.bpm} BPM · ${t.desc || ''}</div>
+            <div class="tc-date">${t.date || ''}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+    grid.querySelectorAll('.tape-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const idx = parseInt(card.dataset.idx);
+        loadTape(idx, true);
+        document.getElementById('player-section').scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+
+  document.getElementById('playPauseBtn').addEventListener('click', togglePlay);
+  document.getElementById('prevBtn').addEventListener('click', prevTrack);
+  document.getElementById('nextBtn').addEventListener('click', nextTrack);
+  document.getElementById('progressWrap').addEventListener('click', seek);
+  volumeSlider.addEventListener('input', (e) => audio.volume = e.target.value);
+  audio.volume = 0.8;
+  audio.addEventListener('timeupdate', updateProgressUI);
+  audio.addEventListener('ended', () => nextTrack());
+  audio.addEventListener('play', () => { isPlaying = true; updatePlayUI(); });
+  audio.addEventListener('pause', () => { isPlaying = false; updatePlayUI(); });
+
+  fetchTapes();
+</script>
+</body>
+</html>
